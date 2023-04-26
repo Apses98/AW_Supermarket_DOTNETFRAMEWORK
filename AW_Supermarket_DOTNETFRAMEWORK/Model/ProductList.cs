@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace AW_Supermarket_DOTNETFRAMEWORK
 {
@@ -362,6 +365,95 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 products.Add(product);
             }
             return products;
+        }
+
+        internal bool syncNow(string api)
+        {
+            string response = getXmlFromAPI(api);
+            List<Product> tmp = extractProducts(response);
+            if (tmp.Count == 0)
+            {
+                return false;
+            }
+            foreach (var newproduct in tmp)
+            {
+                foreach (var product in productList)
+                {
+                    if (product.ProductID == newproduct.ProductID)
+                    {
+                        product.Price = newproduct.Price;
+                        product.Quantity = newproduct.Quantity;
+                        
+                    }
+                }
+            }
+            return true;
+        }
+
+        private List<Product> extractProducts(string response)
+        {
+            List<Product> tmpList = new List<Product>();
+            Product tmp = new Product
+            {
+                ProductID = -1,
+                Price = -1,
+                Quantity = -1
+            };
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(response);
+
+            if (doc.FirstChild.FirstChild.Name == "error")
+            {
+                tmpList.Clear();
+                return tmpList;
+            }
+            
+
+            if (doc.FirstChild.LastChild.Name == "products")
+            {
+
+                for (int i = 0; i < doc.FirstChild.LastChild.ChildNodes.Count; i++)
+                {
+                    for(int j = 0; j < doc.FirstChild.LastChild.ChildNodes[i].ChildNodes.Count; j++)
+                    {
+                        if (doc.FirstChild.LastChild.ChildNodes[i].ChildNodes[j].Name == "id")
+                        {
+                            tmp.ProductID = int.Parse(doc.FirstChild.LastChild.ChildNodes[i].ChildNodes[j].InnerText);
+                        }
+                        if (doc.FirstChild.LastChild.ChildNodes[i].ChildNodes[j].Name == "price")
+                        {
+                            tmp.Price = int.Parse(doc.FirstChild.LastChild.ChildNodes[i].ChildNodes[j].InnerText);
+                        }
+                        if (doc.FirstChild.LastChild.ChildNodes[i].ChildNodes[j].Name == "stock")
+                        {
+                            tmp.Quantity = int.Parse(doc.FirstChild.LastChild.ChildNodes[i].ChildNodes[j].InnerText);
+                        }
+                        if (tmp.ProductID != -1 && tmp.Quantity != -1 && tmp.Price != -1)
+                        {
+                            tmpList.Add(new Product{   ProductID = tmp.ProductID,
+                                                        Price = tmp.Price,
+                                                        Quantity = tmp.Quantity 
+                                                    });
+                            tmp.ProductID = -1;
+                            tmp.Price = -1;
+                            tmp.Quantity = -1;
+                            
+                        }
+                        
+                    }
+                }
+
+            }
+
+
+            return tmpList;
+        }
+
+        private string getXmlFromAPI(string api)
+        {
+            WebClient client = new WebClient();
+            var text = client.DownloadString(api);
+            return text;
         }
     }
 }

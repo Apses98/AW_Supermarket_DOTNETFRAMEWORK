@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -443,6 +444,27 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
         }
 
         
+        private async void syncNowButton_Click(object sender, EventArgs e)
+        {
+            syncNowButton.BackColor = Color.Yellow;
+            if (controller.syncNowButtonPressed(apiTextBox.Text))
+            {
+                
+                syncNowButton.BackColor = Color.LightGreen;
+                updateDataGridView();
+                await Task.Run(() =>
+                {
+                    Thread.Sleep(1500);
+                });
 
+            }
+            else
+            {
+                syncNowButton.BackColor = Color.LightCoral;
+                MessageBox.Show("Unable to sync!!\nPlease check your API or your internet connection.");
+            }
+            
+            syncNowButton.BackColor = Color.Transparent;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using System;
+using System.Net;
 
 namespace AW_Supermarket_DOTNETFRAMEWORK
 {
@@ -358,6 +359,30 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
 
             return result;
+
+        }
+
+        internal bool syncNowButtonPressed(string api)
+        {
+            if (!apiIsValid(api))
+            {
+                return false;
+            }
+            return productlist.syncNow(api);
+        }
+
+        private bool apiIsValid(string api)
+        {
+            try
+            {
+                WebClient client = new WebClient();
+                var text = client.DownloadString(api);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
 
         }
     }

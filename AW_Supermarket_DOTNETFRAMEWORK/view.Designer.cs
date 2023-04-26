@@ -81,13 +81,20 @@
             this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label17 = new System.Windows.Forms.Label();
-            this.monthRadioButton = new System.Windows.Forms.RadioButton();
-            this.yearRadioButton = new System.Windows.Forms.RadioButton();
-            this.totalSalesButton = new System.Windows.Forms.Button();
-            this.toptenButton = new System.Windows.Forms.Button();
             this.searchTextBox = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.splitContainer8 = new System.Windows.Forms.SplitContainer();
+            this.syncNowButton = new System.Windows.Forms.Button();
+            this.autoSyncButton = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
+            this.monthRadioButton = new System.Windows.Forms.RadioButton();
+            this.toptenButton = new System.Windows.Forms.Button();
+            this.totalSalesButton = new System.Windows.Forms.Button();
+            this.yearRadioButton = new System.Windows.Forms.RadioButton();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.apiTextBox = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.checkoutTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -121,6 +128,10 @@
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).BeginInit();
+            this.splitContainer8.Panel1.SuspendLayout();
+            this.splitContainer8.Panel2.SuspendLayout();
+            this.splitContainer8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -729,16 +740,12 @@
             // 
             this.splitContainer4.Panel1.Controls.Add(this.dataGridView2);
             this.splitContainer4.Panel1.Controls.Add(this.label17);
+            this.splitContainer4.Panel1.Controls.Add(this.searchTextBox);
+            this.splitContainer4.Panel1.Controls.Add(this.label18);
             // 
             // splitContainer4.Panel2
             // 
-            this.splitContainer4.Panel2.Controls.Add(this.monthRadioButton);
-            this.splitContainer4.Panel2.Controls.Add(this.yearRadioButton);
-            this.splitContainer4.Panel2.Controls.Add(this.totalSalesButton);
-            this.splitContainer4.Panel2.Controls.Add(this.toptenButton);
-            this.splitContainer4.Panel2.Controls.Add(this.searchTextBox);
-            this.splitContainer4.Panel2.Controls.Add(this.label19);
-            this.splitContainer4.Panel2.Controls.Add(this.label18);
+            this.splitContainer4.Panel2.Controls.Add(this.splitContainer8);
             this.splitContainer4.Size = new System.Drawing.Size(1089, 296);
             this.splitContainer4.SplitterDistance = 795;
             this.splitContainer4.TabIndex = 0;
@@ -769,21 +776,125 @@
             this.label17.TabIndex = 1;
             this.label17.Text = "Select product(s) and press add to order:";
             // 
+            // searchTextBox
+            // 
+            this.searchTextBox.Location = new System.Drawing.Point(579, 8);
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.Size = new System.Drawing.Size(200, 20);
+            this.searchTextBox.TabIndex = 1;
+            this.searchTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(501, 8);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(66, 18);
+            this.label18.TabIndex = 0;
+            this.label18.Text = "Search:";
+            // 
+            // splitContainer8
+            // 
+            this.splitContainer8.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer8.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer8.Name = "splitContainer8";
+            this.splitContainer8.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer8.Panel1
+            // 
+            this.splitContainer8.Panel1.Controls.Add(this.syncNowButton);
+            this.splitContainer8.Panel1.Controls.Add(this.autoSyncButton);
+            this.splitContainer8.Panel1.Controls.Add(this.apiTextBox);
+            this.splitContainer8.Panel1.Controls.Add(this.label22);
+            this.splitContainer8.Panel1.Controls.Add(this.label21);
+            // 
+            // splitContainer8.Panel2
+            // 
+            this.splitContainer8.Panel2.Controls.Add(this.monthRadioButton);
+            this.splitContainer8.Panel2.Controls.Add(this.toptenButton);
+            this.splitContainer8.Panel2.Controls.Add(this.totalSalesButton);
+            this.splitContainer8.Panel2.Controls.Add(this.yearRadioButton);
+            this.splitContainer8.Panel2.Controls.Add(this.label20);
+            this.splitContainer8.Panel2.Controls.Add(this.label19);
+            this.splitContainer8.Size = new System.Drawing.Size(290, 296);
+            this.splitContainer8.SplitterDistance = 140;
+            this.splitContainer8.TabIndex = 0;
+            // 
+            // syncNowButton
+            // 
+            this.syncNowButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.syncNowButton.Location = new System.Drawing.Point(7, 65);
+            this.syncNowButton.Name = "syncNowButton";
+            this.syncNowButton.Size = new System.Drawing.Size(277, 35);
+            this.syncNowButton.TabIndex = 2;
+            this.syncNowButton.Text = "Sync Now";
+            this.syncNowButton.UseVisualStyleBackColor = true;
+            this.syncNowButton.Click += new System.EventHandler(this.syncNowButton_Click);
+            // 
+            // autoSyncButton
+            // 
+            this.autoSyncButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.autoSyncButton.BackColor = System.Drawing.Color.LightCoral;
+            this.autoSyncButton.Location = new System.Drawing.Point(6, 100);
+            this.autoSyncButton.Name = "autoSyncButton";
+            this.autoSyncButton.Size = new System.Drawing.Size(277, 35);
+            this.autoSyncButton.TabIndex = 2;
+            this.autoSyncButton.Text = "Auto Sync: Off";
+            this.autoSyncButton.UseVisualStyleBackColor = false;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(6, 11);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(43, 17);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "Sync";
+            // 
             // monthRadioButton
             // 
             this.monthRadioButton.AutoSize = true;
-            this.monthRadioButton.Location = new System.Drawing.Point(156, 108);
+            this.monthRadioButton.Location = new System.Drawing.Point(160, 35);
             this.monthRadioButton.Name = "monthRadioButton";
             this.monthRadioButton.Size = new System.Drawing.Size(55, 17);
             this.monthRadioButton.TabIndex = 3;
             this.monthRadioButton.Text = "Month";
             this.monthRadioButton.UseVisualStyleBackColor = true;
             // 
+            // toptenButton
+            // 
+            this.toptenButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.toptenButton.Location = new System.Drawing.Point(7, 60);
+            this.toptenButton.Name = "toptenButton";
+            this.toptenButton.Size = new System.Drawing.Size(277, 40);
+            this.toptenButton.TabIndex = 2;
+            this.toptenButton.Text = "Top ten products";
+            this.toptenButton.UseVisualStyleBackColor = true;
+            this.toptenButton.Click += new System.EventHandler(this.toptenButton_Click);
+            // 
+            // totalSalesButton
+            // 
+            this.totalSalesButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.totalSalesButton.Location = new System.Drawing.Point(7, 105);
+            this.totalSalesButton.Name = "totalSalesButton";
+            this.totalSalesButton.Size = new System.Drawing.Size(277, 40);
+            this.totalSalesButton.TabIndex = 2;
+            this.totalSalesButton.Text = "Total Sales";
+            this.totalSalesButton.UseVisualStyleBackColor = true;
+            this.totalSalesButton.Click += new System.EventHandler(this.totalSalesButton_Click);
+            // 
             // yearRadioButton
             // 
             this.yearRadioButton.AutoSize = true;
             this.yearRadioButton.Checked = true;
-            this.yearRadioButton.Location = new System.Drawing.Point(89, 108);
+            this.yearRadioButton.Location = new System.Drawing.Point(93, 35);
             this.yearRadioButton.Name = "yearRadioButton";
             this.yearRadioButton.Size = new System.Drawing.Size(47, 17);
             this.yearRadioButton.TabIndex = 3;
@@ -791,58 +902,44 @@
             this.yearRadioButton.Text = "Year";
             this.yearRadioButton.UseVisualStyleBackColor = true;
             // 
-            // totalSalesButton
+            // label20
             // 
-            this.totalSalesButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.totalSalesButton.Location = new System.Drawing.Point(3, 208);
-            this.totalSalesButton.Name = "totalSalesButton";
-            this.totalSalesButton.Size = new System.Drawing.Size(282, 65);
-            this.totalSalesButton.TabIndex = 2;
-            this.totalSalesButton.Text = "Total Sales";
-            this.totalSalesButton.UseVisualStyleBackColor = true;
-            this.totalSalesButton.Click += new System.EventHandler(this.totalSalesButton_Click);
-            // 
-            // toptenButton
-            // 
-            this.toptenButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.toptenButton.Location = new System.Drawing.Point(3, 137);
-            this.toptenButton.Name = "toptenButton";
-            this.toptenButton.Size = new System.Drawing.Size(282, 65);
-            this.toptenButton.TabIndex = 2;
-            this.toptenButton.Text = "Top ten products";
-            this.toptenButton.UseVisualStyleBackColor = true;
-            this.toptenButton.Click += new System.EventHandler(this.toptenButton_Click);
-            // 
-            // searchTextBox
-            // 
-            this.searchTextBox.Location = new System.Drawing.Point(85, 34);
-            this.searchTextBox.Name = "searchTextBox";
-            this.searchTextBox.Size = new System.Drawing.Size(200, 20);
-            this.searchTextBox.TabIndex = 1;
-            this.searchTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(6, 11);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(74, 17);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "Statistics";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(6, 108);
+            this.label19.Location = new System.Drawing.Point(6, 35);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(69, 17);
             this.label19.TabIndex = 0;
             this.label19.Text = "Stats per:";
             // 
-            // label18
+            // apiTextBox
             // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(6, 33);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(66, 18);
-            this.label18.TabIndex = 0;
-            this.label18.Text = "Search:";
+            this.apiTextBox.Location = new System.Drawing.Point(49, 39);
+            this.apiTextBox.Name = "apiTextBox";
+            this.apiTextBox.Size = new System.Drawing.Size(234, 20);
+            this.apiTextBox.TabIndex = 1;
+            this.apiTextBox.Text = "https://hex.cse.kau.se/~jonavest/csharp-api/";
+            this.apiTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(6, 40);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(33, 17);
+            this.label22.TabIndex = 0;
+            this.label22.Text = "API:";
             // 
             // mainForm
             // 
@@ -891,10 +988,15 @@
             this.splitContainer4.Panel1.ResumeLayout(false);
             this.splitContainer4.Panel1.PerformLayout();
             this.splitContainer4.Panel2.ResumeLayout(false);
-            this.splitContainer4.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.splitContainer8.Panel1.ResumeLayout(false);
+            this.splitContainer8.Panel1.PerformLayout();
+            this.splitContainer8.Panel2.ResumeLayout(false);
+            this.splitContainer8.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
+            this.splitContainer8.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -961,6 +1063,13 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button totalSalesButton;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.SplitContainer splitContainer8;
+        private System.Windows.Forms.Button syncNowButton;
+        private System.Windows.Forms.Button autoSyncButton;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox apiTextBox;
+        private System.Windows.Forms.Label label22;
     }
 }
 
