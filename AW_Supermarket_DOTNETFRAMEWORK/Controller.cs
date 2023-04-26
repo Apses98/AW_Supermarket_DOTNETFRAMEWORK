@@ -394,18 +394,16 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             {
                 if (apiIsValid(api))
                 {
+                    
                     if (!productlist.syncNow(api))
                     {
                         MessageBox.Show("Auto Sync Failed!\nTrying again in 5 minutes.");
                         await Task.Run(() =>
                         {
                             Thread.Sleep(60 * 1000 * 4);
-                        });
-                        
-                        
+                        });    
                     }
-                    mainForm.autoSyncRunning(true);
-
+                    mainForm.updateAutoSyncMessage();
                 }
                 await Task.Run(() =>
                 {

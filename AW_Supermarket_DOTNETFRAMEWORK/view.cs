@@ -14,6 +14,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 {
     public partial class mainForm : Form
     {
+        Thread autoSync;
         Controller controller;
         string lastReceipt;
         public mainForm()
@@ -46,6 +47,11 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+
+            if (autoSync != null)
+            {
+                autoSync.Abort();
+            }
             controller.FormColsing();
         }
 
@@ -446,13 +452,16 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
         
         private async void syncNowButton_Click(object sender, EventArgs e)
         {
-            syncNowButton.BackColor = Color.Yellow;
+            
             apiTextBox.Enabled = false;
+            syncNowButton.Enabled = false;
+            syncNowButton.BackColor = Color.Yellow;
             if (controller.syncNowButtonPressed(apiTextBox.Text))
             {
                 
                 syncNowButton.BackColor = Color.LightGreen;
                 updateDataGridView();
+                syncNowButton.Text = "Success!";
                 await Task.Run(() =>
                 {
                     Thread.Sleep(1500);
@@ -465,12 +474,14 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 MessageBox.Show("Unable to sync!!\nPlease check your API or your internet connection.");
             }
             apiTextBox.Enabled = true;
+            syncNowButton.Enabled = true;
+            syncNowButton.Text = "Sync Now";
             syncNowButton.BackColor = Color.Transparent;
         }
 
         private void autoSyncButton_Click(object sender, EventArgs e)
         {
-            Thread autoSync = new Thread(() => controller.autoSyncButtonPressed(apiTextBox.Text));
+            autoSync = new Thread(() => controller.autoSyncButtonPressed(apiTextBox.Text));
             if (autoSyncButton.Text == "Auto Sync: Off")
             {
                 autoSyncButton.Text = "Auto Sync: On";
@@ -486,21 +497,24 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 autoSyncButton.BackColor = Color.LightCoral;
                 apiTextBox.Enabled = true;
                 syncNowButton.Enabled = true;
-                autoSyncRunning(false);
-            }
-        }
-        public void autoSyncRunning(bool state)
-        {
-            if (state)
-            {
-                syncNowButton.Text = "Running...";
-                syncNowButton.BackColor = Color.LightGreen;
-            }
-            else
-            {
                 syncNowButton.Text = "Sync Now";
                 syncNowButton.BackColor = Color.Transparent;
             }
+        }
+        public void updateAutoSyncMessage()
+        {
+            DateTime time= DateTime.Now;
+            if (syncNowButton.InvokeRequired)
+            {
+                syncNowButton.Invoke((MethodInvoker)delegate {
+                    syncNowButton.Text = "Running...";
+                    syncNowButton.BackColor = Color.Yellow;
+                    syncNowButton.Text = "Last Sync: " + time.ToString();
+                    syncNowButton.BackColor = Color.LightGreen;
+                });
+            }
+            
+            
         }
     }
 }
