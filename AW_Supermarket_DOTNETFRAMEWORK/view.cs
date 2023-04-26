@@ -447,6 +447,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
         private async void syncNowButton_Click(object sender, EventArgs e)
         {
             syncNowButton.BackColor = Color.Yellow;
+            apiTextBox.Enabled = false;
             if (controller.syncNowButtonPressed(apiTextBox.Text))
             {
                 
@@ -463,8 +464,43 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 syncNowButton.BackColor = Color.LightCoral;
                 MessageBox.Show("Unable to sync!!\nPlease check your API or your internet connection.");
             }
-            
+            apiTextBox.Enabled = true;
             syncNowButton.BackColor = Color.Transparent;
+        }
+
+        private void autoSyncButton_Click(object sender, EventArgs e)
+        {
+            Thread autoSync = new Thread(() => controller.autoSyncButtonPressed(apiTextBox.Text));
+            if (autoSyncButton.Text == "Auto Sync: Off")
+            {
+                autoSyncButton.Text = "Auto Sync: On";
+                autoSyncButton.BackColor = Color.LightGreen;
+                apiTextBox.Enabled = false;
+                syncNowButton.Enabled = false;
+                autoSync.Start();
+            }
+            else
+            {
+                autoSync.Abort();
+                autoSyncButton.Text = "Auto Sync: Off";
+                autoSyncButton.BackColor = Color.LightCoral;
+                apiTextBox.Enabled = true;
+                syncNowButton.Enabled = true;
+                autoSyncRunning(false);
+            }
+        }
+        public void autoSyncRunning(bool state)
+        {
+            if (state)
+            {
+                syncNowButton.Text = "Running...";
+                syncNowButton.BackColor = Color.LightGreen;
+            }
+            else
+            {
+                syncNowButton.Text = "Sync Now";
+                syncNowButton.BackColor = Color.Transparent;
+            }
         }
     }
 }

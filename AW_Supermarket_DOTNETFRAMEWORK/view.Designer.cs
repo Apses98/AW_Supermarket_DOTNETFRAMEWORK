@@ -845,6 +845,7 @@
             this.autoSyncButton.TabIndex = 2;
             this.autoSyncButton.Text = "Auto Sync: Off";
             this.autoSyncButton.UseVisualStyleBackColor = false;
+            this.autoSyncButton.Click += new System.EventHandler(this.autoSyncButton_Click);
             // 
             // label21
             // 
