@@ -370,7 +370,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
         internal bool syncNow(string api)
         {
             string response = getXmlFromAPI(api);
-            List<Product> tmp = extractProducts(response);
+            List<Product> tmp = extractAndLogProducts(response);
             if (tmp.Count == 0)
             {
                 return false;
@@ -390,7 +390,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             return true;
         }
 
-        private List<Product> extractProducts(string response)
+        private List<Product> extractAndLogProducts(string response)
         {
             List<Product> tmpList = new List<Product>();
             Product tmp = new Product
@@ -445,8 +445,29 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
             }
 
-
+            saveProductPriceHistory(tmpList);
             return tmpList;
+        }
+
+        private void saveProductPriceHistory(List<Product> tmpList)
+        {
+            string text = string.Empty;
+            DateTime time= DateTime.Now;
+            if (!Directory.Exists("priceHistory"))
+            {
+                Directory.CreateDirectory(@"priceHistory/");
+            }
+
+            foreach (var product in tmpList)
+            {
+                if (!File.Exists("priceHistory/" + product.ProductID.ToString() + ".awStore"))
+                {
+                    File.Create("priceHistory/" + product.ProductID.ToString() + ".awStore").Close();
+                }
+                text = time.ToString() + ',' + product.Price.ToString() + ',' + product.Quantity.ToString() + '\n';
+                System.IO.File.AppendAllText("priceHistory/" + product.ProductID.ToString() + ".awStore", text);
+            }
+                       
         }
 
         private string getXmlFromAPI(string api)
@@ -454,6 +475,32 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             WebClient client = new WebClient();
             var text = client.DownloadString(api);
             return text;
+        }
+
+        internal List<string> loadSeries(string productID, string param)
+        {
+            List<string> series = new List<string>();
+            List<string> dataFromFile = System.IO.File.ReadAllText("priceHistory/" + productID + ".awStore").Split('\n').ToList();
+
+            //Remove last line which contains only "\n"
+            dataFromFile.Remove(dataFromFile.Last());
+
+            for (int i = 0; i < dataFromFile.Count; i++)
+            {
+                if (param == "date")
+                {
+                    series.Add(dataFromFile[i].Split(',')[0]);
+                }
+                else if (param == "price")
+                {
+                    series.Add(dataFromFile[i].Split(',')[1]);
+                }
+                else
+                {
+                    series.Add(dataFromFile[i].Split(',')[2]);
+                }
+            }
+            return series;
         }
     }
 }

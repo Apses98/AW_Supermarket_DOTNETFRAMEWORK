@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace AW_Supermarket_DOTNETFRAMEWORK
 {
@@ -17,6 +15,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
         Thread autoSync;
         Controller controller;
         string lastReceipt;
+        Chart chart1;
         public mainForm()
         {
             InitializeComponent();
@@ -26,8 +25,11 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
         /* Events */
         private void mainForm_Load(object sender, EventArgs e)
         {
+            
             productTypeComboBox.SelectedIndex = 0;
             lastReceipt = string.Empty;
+            chart1 = new Chart();
+            chart1.Dock = DockStyle.Fill;
             updateDataGridView();
 
         }
@@ -86,7 +88,9 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
             }
             // Sell then print receipt
+            syncNowButton_Click(sender, e);
             controller.sell_returnButtonPressed(cartListBox, "sell");
+            controller.updateQuantityInCentral(cartListBox, apiTextBox.Text);
             lastReceipt = " ";
             printReceipt(cartListBox);
             cartListBox.Items.Clear();
@@ -182,11 +186,16 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             orderListBox.Items.RemoveAt(orderListBox.SelectedIndex);
         }
 
-        private void orderNowButton_Click(object sender, EventArgs e)
+        private async void orderNowButton_Click(object sender, EventArgs e)
         {
             if (orderListBox.Items.Count == 0)
                 return;
+            syncNowButton_Click(sender, e);
             controller.orderNowButtonPressed(orderListBox);
+            await Task.Run(() =>
+            {
+                controller.updateQuantityInCentral(orderListBox, apiTextBox.Text);
+            });
             orderListBox.Items.Clear();
             updateDataGridView();
         }
@@ -196,6 +205,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             if (cartListBox.Items.Count == 0)
                 return;
             controller.sell_returnButtonPressed(cartListBox, "return");
+            controller.updateQuantityInCentral(cartListBox, apiTextBox.Text);
             lastReceipt = " ";
             printReceipt(cartListBox);
             cartListBox.Items.Clear();
@@ -294,8 +304,10 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
         {
             dataGridView1.DataSource = controller.getDataSource();
             dataGridView2.DataSource = controller.getDataSource();
+            dataGridView3.DataSource = controller.getDataSource();
             dataGridView1.Refresh();
             dataGridView2.Refresh();
+            dataGridView3.Refresh();
         }
 
         private void clearTextBoxes()
@@ -456,6 +468,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             apiTextBox.Enabled = false;
             syncNowButton.Enabled = false;
             syncNowButton.BackColor = Color.Yellow;
+            syncNowButton.Text = "Running...";
             if (controller.syncNowButtonPressed(apiTextBox.Text))
             {
                 
@@ -471,7 +484,11 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             else
             {
                 syncNowButton.BackColor = Color.LightCoral;
-                MessageBox.Show("Unable to sync!!\nPlease check your API or your internet connection.");
+                syncNowButton.Text = "Unable to sync!!";
+                await Task.Run(() =>
+                {
+                    Thread.Sleep(1500);
+                });
             }
             apiTextBox.Enabled = true;
             syncNowButton.Enabled = true;
@@ -479,8 +496,20 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             syncNowButton.BackColor = Color.Transparent;
         }
 
-        private void autoSyncButton_Click(object sender, EventArgs e)
+        private async void autoSyncButton_Click(object sender, EventArgs e)
         {
+            if (!controller.apiIsValid(apiTextBox.Text))
+            {
+                syncNowButton.BackColor = Color.LightCoral;
+                syncNowButton.Text = "Error, Check your API";
+                await Task.Run(() =>
+                {
+                    Thread.Sleep(1500);
+                });
+                syncNowButton.Text = "Sync Now";
+                syncNowButton.BackColor = Color.Transparent;
+                return;
+            }
             autoSync = new Thread(() => controller.autoSyncButtonPressed(apiTextBox.Text));
             if (autoSyncButton.Text == "Auto Sync: Off")
             {
@@ -488,10 +517,12 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 autoSyncButton.BackColor = Color.LightGreen;
                 apiTextBox.Enabled = false;
                 syncNowButton.Enabled = false;
+                controller.autoSyncThreadIsRunning = true;
                 autoSync.Start();
             }
             else
             {
+                controller.autoSyncThreadIsRunning = false;
                 autoSync.Abort();
                 autoSyncButton.Text = "Auto Sync: Off";
                 autoSyncButton.BackColor = Color.LightCoral;
@@ -501,20 +532,134 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 syncNowButton.BackColor = Color.Transparent;
             }
         }
-        public void updateAutoSyncMessage()
+        public Button getSyncButton()
         {
-            DateTime time= DateTime.Now;
-            if (syncNowButton.InvokeRequired)
+            return syncNowButton;
+        }
+
+
+        private void drawChart()
+        {
+            List<string> x = new List<string>();
+            List<string> y = new List<string>();
+            ChartArea chartArea = new ChartArea();
+            x.Clear();
+            y.Clear();
+
+            chart1.ChartAreas.Clear();
+            chart1.ChartAreas.Add(chartArea);
+
+            chart1.ChartAreas[0].AxisX.Title = "Time";
+            x = controller.loadSeries(dataGridView3.SelectedRows[0].Cells[0].Value.ToString(), "date");
+            
+            if (pricePlotRadioButton.Checked)
             {
-                syncNowButton.Invoke((MethodInvoker)delegate {
-                    syncNowButton.Text = "Running...";
-                    syncNowButton.BackColor = Color.Yellow;
-                    syncNowButton.Text = "Last Sync: " + time.ToString();
-                    syncNowButton.BackColor = Color.LightGreen;
-                });
+                y = controller.loadSeries(dataGridView3.SelectedRows[0].Cells[0].Value.ToString(), "price");
+                chart1.ChartAreas[0].AxisY.Title = "Price";
+            }
+            else if (stockPlotRadionButton.Checked)
+            {
+                y = controller.loadSeries(dataGridView3.SelectedRows[0].Cells[0].Value.ToString() ,"stock");
+                chart1.ChartAreas[0].AxisY.Title = "Stock";
+            }
+
+            chart1.Series.Clear();
+
+            // Set the chart series
+            try
+            {
+                chart1.Series.Add("1");
+            }
+            catch (Exception)
+            {
+                return;
+            }
+
+            // Add data points to the chart series
+            for (int i = 0; i < x.Count; i++)
+            {
+                chart1.Series["1"].Points.AddXY(x[i], int.Parse(y[i]));
             }
             
             
+            // Set the chart type to line
+            chart1.Series["1"].ChartType = SeriesChartType.Line;
+            chart1.BackColor = Color.LightCoral;
+
+            
+            // Set the minimum and maximum X axis values
+            chart1.ChartAreas[0].AxisX.Minimum = 0;
+            chart1.ChartAreas[0].AxisX.Maximum = x.Count;
+
+            // Set the minimum and maximum Y axis values
+            chart1.ChartAreas[0].AxisY.Minimum = getMinMaxY(y, "min");
+            chart1.ChartAreas[0].AxisY.Maximum = getMinMaxY(y, "max");
+
+            
+            // Add the chart control to a form
+            chartSplitContainer.Panel1.Controls.Add(chart1);
+        }
+
+        private int getMinMaxY(List<string> y, string v)
+        {
+            int result;
+            try
+            {
+                result = int.Parse(y[0]);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error!" + e.Message);
+                result = 0;
+                return result;
+            }
+            
+            if (v == "min")
+            {
+                for (int i = 0; i < y.Count; i++)
+                {
+                    try
+                    {
+                        if (int.Parse(y[i]) < result)
+                        {
+                            result = int.Parse(y[i]);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Error!" + e.Message);
+                        result = 0;
+                        return result;
+                    }
+                    
+                }
+            }
+            else
+            {
+                for (int i = 0; i < y.Count; i++)
+                {
+                    try
+                    {
+                        if (int.Parse(y[i]) > result)
+                        {
+                            result = int.Parse(y[i]);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Error!" + e.Message);
+                        result = 0;
+                        return result;
+                    }
+                    
+                }
+            }
+            return result;
+        }
+
+        private void plotNowButton_Click(object sender, EventArgs e)
+        {
+            drawChart();
         }
     }
 }

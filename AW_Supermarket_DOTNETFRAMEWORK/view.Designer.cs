@@ -86,6 +86,8 @@
             this.splitContainer8 = new System.Windows.Forms.SplitContainer();
             this.syncNowButton = new System.Windows.Forms.Button();
             this.autoSyncButton = new System.Windows.Forms.Button();
+            this.apiTextBox = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.monthRadioButton = new System.Windows.Forms.RadioButton();
             this.toptenButton = new System.Windows.Forms.Button();
@@ -93,8 +95,14 @@
             this.yearRadioButton = new System.Windows.Forms.RadioButton();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
-            this.apiTextBox = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
+            this.priceHistory = new System.Windows.Forms.TabPage();
+            this.chartSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.label24 = new System.Windows.Forms.Label();
+            this.stockPlotRadionButton = new System.Windows.Forms.RadioButton();
+            this.pricePlotRadioButton = new System.Windows.Forms.RadioButton();
+            this.label23 = new System.Windows.Forms.Label();
+            this.dataGridView3 = new System.Windows.Forms.DataGridView();
+            this.plotNowButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.checkoutTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -132,12 +140,18 @@
             this.splitContainer8.Panel1.SuspendLayout();
             this.splitContainer8.Panel2.SuspendLayout();
             this.splitContainer8.SuspendLayout();
+            this.priceHistory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartSplitContainer)).BeginInit();
+            this.chartSplitContainer.Panel2.SuspendLayout();
+            this.chartSplitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.checkoutTab);
             this.tabControl1.Controls.Add(this.inventoryTab);
+            this.tabControl1.Controls.Add(this.priceHistory);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -847,6 +861,27 @@
             this.autoSyncButton.UseVisualStyleBackColor = false;
             this.autoSyncButton.Click += new System.EventHandler(this.autoSyncButton_Click);
             // 
+            // apiTextBox
+            // 
+            this.apiTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.apiTextBox.Location = new System.Drawing.Point(49, 39);
+            this.apiTextBox.Name = "apiTextBox";
+            this.apiTextBox.Size = new System.Drawing.Size(234, 20);
+            this.apiTextBox.TabIndex = 1;
+            this.apiTextBox.Text = "https://hex.cse.kau.se/~jonavest/csharp-api/";
+            this.apiTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(6, 40);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(33, 17);
+            this.label22.TabIndex = 0;
+            this.label22.Text = "API:";
+            // 
             // label21
             // 
             this.label21.AutoSize = true;
@@ -923,24 +958,106 @@
             this.label19.TabIndex = 0;
             this.label19.Text = "Stats per:";
             // 
-            // apiTextBox
+            // priceHistory
             // 
-            this.apiTextBox.Location = new System.Drawing.Point(49, 39);
-            this.apiTextBox.Name = "apiTextBox";
-            this.apiTextBox.Size = new System.Drawing.Size(234, 20);
-            this.apiTextBox.TabIndex = 1;
-            this.apiTextBox.Text = "https://hex.cse.kau.se/~jonavest/csharp-api/";
-            this.apiTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.priceHistory.Controls.Add(this.chartSplitContainer);
+            this.priceHistory.Location = new System.Drawing.Point(4, 22);
+            this.priceHistory.Name = "priceHistory";
+            this.priceHistory.Size = new System.Drawing.Size(1095, 650);
+            this.priceHistory.TabIndex = 2;
+            this.priceHistory.Text = "Price History";
+            this.priceHistory.UseVisualStyleBackColor = true;
             // 
-            // label22
+            // chartSplitContainer
             // 
-            this.label22.AutoSize = true;
-            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(6, 40);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(33, 17);
-            this.label22.TabIndex = 0;
-            this.label22.Text = "API:";
+            this.chartSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chartSplitContainer.Location = new System.Drawing.Point(0, 0);
+            this.chartSplitContainer.Name = "chartSplitContainer";
+            this.chartSplitContainer.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // chartSplitContainer.Panel2
+            // 
+            this.chartSplitContainer.Panel2.Controls.Add(this.plotNowButton);
+            this.chartSplitContainer.Panel2.Controls.Add(this.label24);
+            this.chartSplitContainer.Panel2.Controls.Add(this.stockPlotRadionButton);
+            this.chartSplitContainer.Panel2.Controls.Add(this.pricePlotRadioButton);
+            this.chartSplitContainer.Panel2.Controls.Add(this.label23);
+            this.chartSplitContainer.Panel2.Controls.Add(this.dataGridView3);
+            this.chartSplitContainer.Size = new System.Drawing.Size(1095, 650);
+            this.chartSplitContainer.SplitterDistance = 365;
+            this.chartSplitContainer.TabIndex = 0;
+            // 
+            // label24
+            // 
+            this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(787, 10);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(36, 15);
+            this.label24.TabIndex = 4;
+            this.label24.Text = "Plot:";
+            // 
+            // stockPlotRadionButton
+            // 
+            this.stockPlotRadionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.stockPlotRadionButton.AutoSize = true;
+            this.stockPlotRadionButton.Location = new System.Drawing.Point(895, 10);
+            this.stockPlotRadionButton.Name = "stockPlotRadionButton";
+            this.stockPlotRadionButton.Size = new System.Drawing.Size(53, 17);
+            this.stockPlotRadionButton.TabIndex = 3;
+            this.stockPlotRadionButton.Text = "Stock";
+            this.stockPlotRadionButton.UseVisualStyleBackColor = true;
+            // 
+            // pricePlotRadioButton
+            // 
+            this.pricePlotRadioButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pricePlotRadioButton.AutoSize = true;
+            this.pricePlotRadioButton.Checked = true;
+            this.pricePlotRadioButton.Location = new System.Drawing.Point(840, 10);
+            this.pricePlotRadioButton.Name = "pricePlotRadioButton";
+            this.pricePlotRadioButton.Size = new System.Drawing.Size(49, 17);
+            this.pricePlotRadioButton.TabIndex = 3;
+            this.pricePlotRadioButton.TabStop = true;
+            this.pricePlotRadioButton.Text = "Price";
+            this.pricePlotRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label23.Location = new System.Drawing.Point(5, 10);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(296, 17);
+            this.label23.TabIndex = 2;
+            this.label23.Text = "Choose a product to show price history:";
+            // 
+            // dataGridView3
+            // 
+            this.dataGridView3.AllowUserToAddRows = false;
+            this.dataGridView3.AllowUserToDeleteRows = false;
+            this.dataGridView3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView3.Location = new System.Drawing.Point(0, 36);
+            this.dataGridView3.MultiSelect = false;
+            this.dataGridView3.Name = "dataGridView3";
+            this.dataGridView3.ReadOnly = true;
+            this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView3.Size = new System.Drawing.Size(1095, 245);
+            this.dataGridView3.TabIndex = 1;
+            // 
+            // plotNowButton
+            // 
+            this.plotNowButton.Location = new System.Drawing.Point(954, 6);
+            this.plotNowButton.Name = "plotNowButton";
+            this.plotNowButton.Size = new System.Drawing.Size(132, 24);
+            this.plotNowButton.TabIndex = 5;
+            this.plotNowButton.Text = "Plot Now";
+            this.plotNowButton.UseVisualStyleBackColor = true;
+            this.plotNowButton.Click += new System.EventHandler(this.plotNowButton_Click);
             // 
             // mainForm
             // 
@@ -998,6 +1115,12 @@
             this.splitContainer8.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
             this.splitContainer8.ResumeLayout(false);
+            this.priceHistory.ResumeLayout(false);
+            this.chartSplitContainer.Panel2.ResumeLayout(false);
+            this.chartSplitContainer.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartSplitContainer)).EndInit();
+            this.chartSplitContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView3)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1071,6 +1194,14 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox apiTextBox;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TabPage priceHistory;
+        private System.Windows.Forms.SplitContainer chartSplitContainer;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.DataGridView dataGridView3;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.RadioButton stockPlotRadionButton;
+        private System.Windows.Forms.RadioButton pricePlotRadioButton;
+        private System.Windows.Forms.Button plotNowButton;
     }
 }
 

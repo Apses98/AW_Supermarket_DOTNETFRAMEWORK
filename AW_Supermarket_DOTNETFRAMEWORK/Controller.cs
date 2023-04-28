@@ -5,6 +5,9 @@ using System;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.Drawing;
+using System.Net.Http;
 
 namespace AW_Supermarket_DOTNETFRAMEWORK
 {
@@ -12,6 +15,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
     {
         private mainForm mainForm;
         ProductList productlist;
+        internal bool autoSyncThreadIsRunning = false;
         public Controller(mainForm mainForm)
         {
             this.mainForm = mainForm;
@@ -370,10 +374,25 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             {
                 return false;
             }
-            return productlist.syncNow(api);
+            
+            ListBox tmpListBox = new ListBox();
+            foreach (Product product in productlist.getProducts())
+            {
+                tmpListBox.Items.Add(product.ProductID + " " + product.Quantity);
+            }
+            if (productlist.syncNow(api))
+            {
+                updateQuantityInCentral(tmpListBox, api);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
-        private bool apiIsValid(string api)
+        internal bool apiIsValid(string api)
         {
             try
             {
@@ -390,11 +409,13 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal async void autoSyncButtonPressed(string api)
         {
-            while (true)
+            DateTime time;
+            while (autoSyncThreadIsRunning)
             {
                 if (apiIsValid(api))
                 {
-                    
+                    mainForm.getSyncButton().Text = "Running...";
+                    mainForm.getSyncButton().BackColor = Color.Yellow;
                     if (!productlist.syncNow(api))
                     {
                         MessageBox.Show("Auto Sync Failed!\nTrying again in 5 minutes.");
@@ -403,7 +424,14 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                             Thread.Sleep(60 * 1000 * 4);
                         });    
                     }
-                    mainForm.updateAutoSyncMessage();
+                    await Task.Run(() =>
+                    {
+                        Thread.Sleep(1000);
+                    });
+                    time = DateTime.Now;
+                    mainForm.getSyncButton().Text = "Last Sync: " + time.ToString();
+                    mainForm.getSyncButton().BackColor = Color.LightGreen;
+                    
                 }
                 await Task.Run(() =>
                 {
@@ -413,6 +441,40 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             }
             
             
+        }
+
+        internal async void updateQuantityInCentral(ListBox cartListBox, string api)
+        {
+            if (!apiIsValid(api))
+            {
+                return;
+            }
+            ListBox tmpList = new ListBox();
+            string apiUrl = api + "?action=update";
+            string productId;
+            int quantity;
+            HttpClient client = new HttpClient();
+            foreach (var item in cartListBox.Items)
+            {
+                productId = item.ToString().Split('\t')[0];
+                quantity = getQuantity(productId);
+                apiUrl += "&id=" + productId + "&stock=" + quantity.ToString();
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // API update was successful
+                    MessageBox.Show("Sync Error!\nCentral was not updated.");
+                    return;
+                }
+            }
+
+            
+        }
+
+        internal List<string> loadSeries(string productID, string param)
+        {
+            return productlist.loadSeries(productID, param);
         }
     }
 }
