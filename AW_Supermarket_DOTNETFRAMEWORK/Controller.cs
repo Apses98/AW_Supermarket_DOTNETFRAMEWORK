@@ -13,6 +13,11 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 {
     internal class Controller
     {
+        /* Declarations
+         *  mainForm: the main Form used in the application
+         *  productList: the backend of the application
+         *  autoSyncThreadIsRunning; A boolean to determine if the autoSync Thread is running
+         */
         private mainForm mainForm;
         ProductList productlist;
         internal bool autoSyncThreadIsRunning = false;
@@ -138,8 +143,6 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
             return true;
         }
-
-
 
         internal void deleteProductButtonPressed(DataGridViewSelectedRowCollection selectedRows)
         {
@@ -370,6 +373,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal bool syncNowButtonPressed(string api)
         {
+            // Checks if the api is valid, then sync and update both ( locally and central stock )
             if (!apiIsValid(api))
             {
                 return false;
@@ -394,6 +398,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal bool apiIsValid(string api)
         {
+            // checks if the api is valid
             try
             {
                 WebClient client = new WebClient();
@@ -409,13 +414,16 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal async void autoSyncButtonPressed(string api)
         {
+            // Auto Syncs with api
             DateTime time;
             while (autoSyncThreadIsRunning)
             {
+                // check if the api is valid
                 if (apiIsValid(api))
                 {
                     mainForm.getSyncButton().Text = "Running...";
                     mainForm.getSyncButton().BackColor = Color.Yellow;
+                    // Sync
                     if (!productlist.syncNow(api))
                     {
                         MessageBox.Show("Auto Sync Failed!\nTrying again in 5 minutes.");
@@ -428,6 +436,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                     {
                         Thread.Sleep(1000);
                     });
+                    // Register last sync time
                     time = DateTime.Now;
                     mainForm.getSyncButton().Text = "Last Sync: " + time.ToString();
                     mainForm.getSyncButton().BackColor = Color.LightGreen;
@@ -445,11 +454,14 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal async void updateQuantityInCentral(ListBox cartListBox, string api)
         {
+            // Sync to update the central stock
+
+            // check if the api is valid
             if (!apiIsValid(api))
             {
                 return;
             }
-            ListBox tmpList = new ListBox();
+
             string apiUrl = api + "?action=update";
             string productId;
             int quantity;
@@ -463,7 +475,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    // API update was successful
+                    // Show message -> api update was not successful
                     MessageBox.Show("Sync Error!\nCentral was not updated.");
                     return;
                 }
@@ -474,6 +486,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal List<string> loadSeries(string productID, string param)
         {
+            // Loads the Series from /priceHistory/ folder to plot in the chart
             return productlist.loadSeries(productID, param);
         }
     }

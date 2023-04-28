@@ -97,12 +97,12 @@
             this.label19 = new System.Windows.Forms.Label();
             this.priceHistory = new System.Windows.Forms.TabPage();
             this.chartSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.plotNowButton = new System.Windows.Forms.Button();
             this.label24 = new System.Windows.Forms.Label();
             this.stockPlotRadionButton = new System.Windows.Forms.RadioButton();
             this.pricePlotRadioButton = new System.Windows.Forms.RadioButton();
             this.label23 = new System.Windows.Forms.Label();
             this.dataGridView3 = new System.Windows.Forms.DataGridView();
-            this.plotNowButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.checkoutTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -987,6 +987,16 @@
             this.chartSplitContainer.SplitterDistance = 365;
             this.chartSplitContainer.TabIndex = 0;
             // 
+            // plotNowButton
+            // 
+            this.plotNowButton.Location = new System.Drawing.Point(954, 6);
+            this.plotNowButton.Name = "plotNowButton";
+            this.plotNowButton.Size = new System.Drawing.Size(132, 24);
+            this.plotNowButton.TabIndex = 5;
+            this.plotNowButton.Text = "Plot Now";
+            this.plotNowButton.UseVisualStyleBackColor = true;
+            this.plotNowButton.Click += new System.EventHandler(this.plotNowButton_Click);
+            // 
             // label24
             // 
             this.label24.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1028,9 +1038,9 @@
             this.label23.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.Location = new System.Drawing.Point(5, 10);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(296, 17);
+            this.label23.Size = new System.Drawing.Size(497, 17);
             this.label23.TabIndex = 2;
-            this.label23.Text = "Choose a product to show price history:";
+            this.label23.Text = "Choose a product then press Plot Now button to show price history:";
             // 
             // dataGridView3
             // 
@@ -1048,16 +1058,6 @@
             this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView3.Size = new System.Drawing.Size(1095, 245);
             this.dataGridView3.TabIndex = 1;
-            // 
-            // plotNowButton
-            // 
-            this.plotNowButton.Location = new System.Drawing.Point(954, 6);
-            this.plotNowButton.Name = "plotNowButton";
-            this.plotNowButton.Size = new System.Drawing.Size(132, 24);
-            this.plotNowButton.TabIndex = 5;
-            this.plotNowButton.Text = "Plot Now";
-            this.plotNowButton.UseVisualStyleBackColor = true;
-            this.plotNowButton.Click += new System.EventHandler(this.plotNowButton_Click);
             // 
             // mainForm
             // 

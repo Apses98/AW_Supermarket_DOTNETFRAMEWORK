@@ -12,15 +12,20 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 {
     internal class ProductList
     {
-        /* Delarations */
+        /* Delarations
+         * productList: A bindingList of product contains all the products
+         * ProductlistSource: A binding source to the productList
+         * csvFile: A list of string cantains lines (as elements) form the csv file
+         */
         BindingList<Product> productList;
         BindingSource productlistSource;
         private List<string> csvFile;
 
-        // Used as min and max boundaries to the product id random generator
+        // Constants: Used as min and max boundaries to the product id random generator
         private const int MIN_PRODUCT_ID = 0, MAX_PRODUCT_ID = 99999;
         public ProductList()
         {
+
             productList = new BindingList<Product>();
             productlistSource = new BindingSource();
             productlistSource.DataSource = productList;
@@ -369,6 +374,8 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal bool syncNow(string api)
         {
+            // Get the products update form the api then update them in the productList 
+            // If success, return true
             string response = getXmlFromAPI(api);
             List<Product> tmp = extractAndLogProducts(response);
             if (tmp.Count == 0)
@@ -392,6 +399,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         private List<Product> extractAndLogProducts(string response)
         {
+            // Convert the product from xml format to List of products
             List<Product> tmpList = new List<Product>();
             Product tmp = new Product
             {
@@ -400,7 +408,17 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 Quantity = -1
             };
             XmlDocument doc = new XmlDocument();
-            doc.LoadXml(response);
+            try
+            {
+                doc.LoadXml(response);
+            }
+            catch (Exception)
+            {
+                // Error return empty List
+                tmpList.Clear();
+                return tmpList;
+            }
+            
 
             if (doc.FirstChild.FirstChild.Name == "error")
             {
@@ -408,7 +426,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 return tmpList;
             }
             
-
+            // Extract products
             if (doc.FirstChild.LastChild.Name == "products")
             {
 
@@ -444,18 +462,20 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 }
 
             }
-
+            // Save the products new prices and quantities
             saveProductPriceHistory(tmpList);
             return tmpList;
         }
 
         private void saveProductPriceHistory(List<Product> tmpList)
         {
+            // Create folder priceHistory and a file {ProductID}.awStore for each product
+            // Save the current time, price and quantity for each product 
             string text = string.Empty;
             DateTime time= DateTime.Now;
             if (!Directory.Exists("priceHistory"))
             {
-                Directory.CreateDirectory(@"priceHistory/");
+                Directory.CreateDirectory("priceHistory/");
             }
 
             foreach (var product in tmpList)
@@ -479,6 +499,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal List<string> loadSeries(string productID, string param)
         {
+            // Load the data from the relevavnt file to plot them.
             List<string> series = new List<string>();
             List<string> dataFromFile = System.IO.File.ReadAllText("priceHistory/" + productID + ".awStore").Split('\n').ToList();
 
