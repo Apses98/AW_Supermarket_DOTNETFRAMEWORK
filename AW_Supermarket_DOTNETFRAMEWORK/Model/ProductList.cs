@@ -399,7 +399,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         private List<Product> extractAndLogProducts(string response)
         {
-            // Convert the product from xml format to List of products
+            // Convert the product from xml format to List of products then calls the saveProductPriceHistory method
             List<Product> tmpList = new List<Product>();
             Product tmp = new Product
             {
@@ -492,6 +492,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         private string getXmlFromAPI(string api)
         {
+            // Gets the data from api and return it as a text containing the xml data
             WebClient client = new WebClient();
             var text = client.DownloadString(api);
             return text;
@@ -501,7 +502,17 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
         {
             // Load the data from the relevavnt file to plot them.
             List<string> series = new List<string>();
-            List<string> dataFromFile = System.IO.File.ReadAllText("priceHistory/" + productID + ".awStore").Split('\n').ToList();
+            List<string> dataFromFile = new List<string>();
+            if (File.Exists("priceHistory/" + productID + ".awStore"))
+            {
+                dataFromFile = System.IO.File.ReadAllText("priceHistory/" + productID + ".awStore").Split('\n').ToList();
+            }
+            else
+            {
+                return series;
+
+            }
+            
 
             //Remove last line which contains only "\n"
             dataFromFile.Remove(dataFromFile.Last());

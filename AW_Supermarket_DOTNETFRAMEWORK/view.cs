@@ -592,7 +592,11 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             // The x axis will allways have the time, Set title to Time
             historyChart.ChartAreas[0].AxisX.Title = "Time";
             x = controller.loadSeries(dataGridView3.SelectedRows[0].Cells[0].Value.ToString(), "date");
-            
+            if (x.Count == 0)
+            {
+                MessageBox.Show("This Product, does not have any history!");
+                return;
+            }
 
             if (pricePlotRadioButton.Checked)
             {

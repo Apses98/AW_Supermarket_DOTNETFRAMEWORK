@@ -219,7 +219,7 @@
             this.addToCartButton.Location = new System.Drawing.Point(564, 333);
             this.addToCartButton.Name = "addToCartButton";
             this.addToCartButton.Size = new System.Drawing.Size(127, 36);
-            this.addToCartButton.TabIndex = 2;
+            this.addToCartButton.TabIndex = 4;
             this.addToCartButton.Text = "Add to cart";
             this.addToCartButton.UseVisualStyleBackColor = true;
             this.addToCartButton.Click += new System.EventHandler(this.addToCartButton_Click);
@@ -230,7 +230,7 @@
             this.removeFromCartButton.Location = new System.Drawing.Point(697, 333);
             this.removeFromCartButton.Name = "removeFromCartButton";
             this.removeFromCartButton.Size = new System.Drawing.Size(127, 36);
-            this.removeFromCartButton.TabIndex = 2;
+            this.removeFromCartButton.TabIndex = 5;
             this.removeFromCartButton.Text = "Remove from cart";
             this.removeFromCartButton.UseVisualStyleBackColor = true;
             this.removeFromCartButton.Click += new System.EventHandler(this.removeFromCartButton_Click);
@@ -276,7 +276,7 @@
             this.reprintButton.Location = new System.Drawing.Point(5, 253);
             this.reprintButton.Name = "reprintButton";
             this.reprintButton.Size = new System.Drawing.Size(241, 68);
-            this.reprintButton.TabIndex = 2;
+            this.reprintButton.TabIndex = 3;
             this.reprintButton.Text = "Reprint Receipt";
             this.reprintButton.UseVisualStyleBackColor = true;
             this.reprintButton.Click += new System.EventHandler(this.reprintButton_Click);
@@ -315,7 +315,7 @@
             this.sellButton.Location = new System.Drawing.Point(5, 105);
             this.sellButton.Name = "sellButton";
             this.sellButton.Size = new System.Drawing.Size(241, 68);
-            this.sellButton.TabIndex = 2;
+            this.sellButton.TabIndex = 1;
             this.sellButton.Text = "Sell";
             this.sellButton.UseVisualStyleBackColor = true;
             this.sellButton.Click += new System.EventHandler(this.sellButton_Click);
@@ -345,7 +345,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1079, 227);
-            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.TabIndex = 6;
             // 
             // inventoryTab
             // 
@@ -403,7 +403,7 @@
             this.addToOrderButton.Location = new System.Drawing.Point(342, 296);
             this.addToOrderButton.Name = "addToOrderButton";
             this.addToOrderButton.Size = new System.Drawing.Size(142, 34);
-            this.addToOrderButton.TabIndex = 2;
+            this.addToOrderButton.TabIndex = 13;
             this.addToOrderButton.Text = "Add to order";
             this.addToOrderButton.UseVisualStyleBackColor = true;
             this.addToOrderButton.Click += new System.EventHandler(this.addToOrderButton_Click);
@@ -414,7 +414,7 @@
             this.RemoveFromOrderButton.Location = new System.Drawing.Point(490, 296);
             this.RemoveFromOrderButton.Name = "RemoveFromOrderButton";
             this.RemoveFromOrderButton.Size = new System.Drawing.Size(142, 34);
-            this.RemoveFromOrderButton.TabIndex = 2;
+            this.RemoveFromOrderButton.TabIndex = 14;
             this.RemoveFromOrderButton.Text = "Remove from order";
             this.RemoveFromOrderButton.UseVisualStyleBackColor = true;
             this.RemoveFromOrderButton.Click += new System.EventHandler(this.RemoveFromOrderButton_Click);
@@ -425,7 +425,7 @@
             this.orderNowButton.Location = new System.Drawing.Point(638, 296);
             this.orderNowButton.Name = "orderNowButton";
             this.orderNowButton.Size = new System.Drawing.Size(142, 34);
-            this.orderNowButton.TabIndex = 2;
+            this.orderNowButton.TabIndex = 15;
             this.orderNowButton.Text = "Order now";
             this.orderNowButton.UseVisualStyleBackColor = true;
             this.orderNowButton.Click += new System.EventHandler(this.orderNowButton_Click);
@@ -501,7 +501,7 @@
             this.productTypeComboBox.Location = new System.Drawing.Point(85, 26);
             this.productTypeComboBox.Name = "productTypeComboBox";
             this.productTypeComboBox.Size = new System.Drawing.Size(200, 21);
-            this.productTypeComboBox.TabIndex = 2;
+            this.productTypeComboBox.TabIndex = 0;
             this.productTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.productTypeComboBox_SelectedIndexChanged);
             // 
             // label3
@@ -521,7 +521,7 @@
             this.authortextBox.Location = new System.Drawing.Point(85, 119);
             this.authortextBox.Name = "authortextBox";
             this.authortextBox.Size = new System.Drawing.Size(200, 20);
-            this.authortextBox.TabIndex = 1;
+            this.authortextBox.TabIndex = 4;
             // 
             // label12
             // 
@@ -539,7 +539,7 @@
             this.quantityTextBox.Location = new System.Drawing.Point(85, 263);
             this.quantityTextBox.Name = "quantityTextBox";
             this.quantityTextBox.Size = new System.Drawing.Size(200, 20);
-            this.quantityTextBox.TabIndex = 1;
+            this.quantityTextBox.TabIndex = 10;
             // 
             // label13
             // 
@@ -567,7 +567,7 @@
             this.playtimetextBox.Location = new System.Drawing.Point(85, 239);
             this.playtimetextBox.Name = "playtimetextBox";
             this.playtimetextBox.Size = new System.Drawing.Size(200, 20);
-            this.playtimetextBox.TabIndex = 1;
+            this.playtimetextBox.TabIndex = 9;
             // 
             // label14
             // 
@@ -595,7 +595,7 @@
             this.platformtextBox.Location = new System.Drawing.Point(85, 215);
             this.platformtextBox.Name = "platformtextBox";
             this.platformtextBox.Size = new System.Drawing.Size(200, 20);
-            this.platformtextBox.TabIndex = 1;
+            this.platformtextBox.TabIndex = 8;
             // 
             // label9
             // 
@@ -613,7 +613,7 @@
             this.languagetextBox.Location = new System.Drawing.Point(85, 191);
             this.languagetextBox.Name = "languagetextBox";
             this.languagetextBox.Size = new System.Drawing.Size(200, 20);
-            this.languagetextBox.TabIndex = 1;
+            this.languagetextBox.TabIndex = 7;
             // 
             // productIDtextBox
             // 
@@ -631,7 +631,7 @@
             this.formattextBox.Location = new System.Drawing.Point(85, 167);
             this.formattextBox.Name = "formattextBox";
             this.formattextBox.Size = new System.Drawing.Size(200, 20);
-            this.formattextBox.TabIndex = 1;
+            this.formattextBox.TabIndex = 6;
             // 
             // label8
             // 
@@ -658,7 +658,7 @@
             this.nametextBox.Location = new System.Drawing.Point(85, 73);
             this.nametextBox.Name = "nametextBox";
             this.nametextBox.Size = new System.Drawing.Size(200, 20);
-            this.nametextBox.TabIndex = 1;
+            this.nametextBox.TabIndex = 2;
             // 
             // genretextBox
             // 
@@ -667,7 +667,7 @@
             this.genretextBox.Location = new System.Drawing.Point(85, 143);
             this.genretextBox.Name = "genretextBox";
             this.genretextBox.Size = new System.Drawing.Size(200, 20);
-            this.genretextBox.TabIndex = 1;
+            this.genretextBox.TabIndex = 5;
             // 
             // label7
             // 
@@ -694,7 +694,7 @@
             this.pricetextBox.Location = new System.Drawing.Point(85, 96);
             this.pricetextBox.Name = "pricetextBox";
             this.pricetextBox.Size = new System.Drawing.Size(200, 20);
-            this.pricetextBox.TabIndex = 1;
+            this.pricetextBox.TabIndex = 3;
             // 
             // label6
             // 
@@ -728,7 +728,7 @@
             this.addProductButton.Location = new System.Drawing.Point(0, 0);
             this.addProductButton.Name = "addProductButton";
             this.addProductButton.Size = new System.Drawing.Size(142, 52);
-            this.addProductButton.TabIndex = 2;
+            this.addProductButton.TabIndex = 11;
             this.addProductButton.Text = "Add product";
             this.addProductButton.UseVisualStyleBackColor = true;
             this.addProductButton.Click += new System.EventHandler(this.addProductButton_Click);
@@ -739,7 +739,7 @@
             this.deleteProductButton.Location = new System.Drawing.Point(0, 0);
             this.deleteProductButton.Name = "deleteProductButton";
             this.deleteProductButton.Size = new System.Drawing.Size(142, 52);
-            this.deleteProductButton.TabIndex = 2;
+            this.deleteProductButton.TabIndex = 12;
             this.deleteProductButton.Text = "Delete Product";
             this.deleteProductButton.UseVisualStyleBackColor = true;
             this.deleteProductButton.Click += new System.EventHandler(this.deleteProductButton_Click);
@@ -778,7 +778,7 @@
             this.dataGridView2.ReadOnly = true;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView2.Size = new System.Drawing.Size(787, 257);
-            this.dataGridView2.TabIndex = 0;
+            this.dataGridView2.TabIndex = 17;
             // 
             // label17
             // 
@@ -795,7 +795,7 @@
             this.searchTextBox.Location = new System.Drawing.Point(579, 8);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.Size = new System.Drawing.Size(200, 20);
-            this.searchTextBox.TabIndex = 1;
+            this.searchTextBox.TabIndex = 16;
             this.searchTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
@@ -843,7 +843,7 @@
             this.syncNowButton.Location = new System.Drawing.Point(7, 65);
             this.syncNowButton.Name = "syncNowButton";
             this.syncNowButton.Size = new System.Drawing.Size(277, 35);
-            this.syncNowButton.TabIndex = 2;
+            this.syncNowButton.TabIndex = 19;
             this.syncNowButton.Text = "Sync Now";
             this.syncNowButton.UseVisualStyleBackColor = true;
             this.syncNowButton.Click += new System.EventHandler(this.syncNowButton_Click);
@@ -856,7 +856,7 @@
             this.autoSyncButton.Location = new System.Drawing.Point(6, 100);
             this.autoSyncButton.Name = "autoSyncButton";
             this.autoSyncButton.Size = new System.Drawing.Size(277, 35);
-            this.autoSyncButton.TabIndex = 2;
+            this.autoSyncButton.TabIndex = 20;
             this.autoSyncButton.Text = "Auto Sync: Off";
             this.autoSyncButton.UseVisualStyleBackColor = false;
             this.autoSyncButton.Click += new System.EventHandler(this.autoSyncButton_Click);
@@ -868,7 +868,7 @@
             this.apiTextBox.Location = new System.Drawing.Point(49, 39);
             this.apiTextBox.Name = "apiTextBox";
             this.apiTextBox.Size = new System.Drawing.Size(234, 20);
-            this.apiTextBox.TabIndex = 1;
+            this.apiTextBox.TabIndex = 18;
             this.apiTextBox.Text = "https://hex.cse.kau.se/~jonavest/csharp-api/";
             this.apiTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -898,7 +898,7 @@
             this.monthRadioButton.Location = new System.Drawing.Point(160, 35);
             this.monthRadioButton.Name = "monthRadioButton";
             this.monthRadioButton.Size = new System.Drawing.Size(55, 17);
-            this.monthRadioButton.TabIndex = 3;
+            this.monthRadioButton.TabIndex = 22;
             this.monthRadioButton.Text = "Month";
             this.monthRadioButton.UseVisualStyleBackColor = true;
             // 
@@ -909,7 +909,7 @@
             this.toptenButton.Location = new System.Drawing.Point(7, 60);
             this.toptenButton.Name = "toptenButton";
             this.toptenButton.Size = new System.Drawing.Size(277, 40);
-            this.toptenButton.TabIndex = 2;
+            this.toptenButton.TabIndex = 23;
             this.toptenButton.Text = "Top ten products";
             this.toptenButton.UseVisualStyleBackColor = true;
             this.toptenButton.Click += new System.EventHandler(this.toptenButton_Click);
@@ -921,7 +921,7 @@
             this.totalSalesButton.Location = new System.Drawing.Point(7, 105);
             this.totalSalesButton.Name = "totalSalesButton";
             this.totalSalesButton.Size = new System.Drawing.Size(277, 40);
-            this.totalSalesButton.TabIndex = 2;
+            this.totalSalesButton.TabIndex = 24;
             this.totalSalesButton.Text = "Total Sales";
             this.totalSalesButton.UseVisualStyleBackColor = true;
             this.totalSalesButton.Click += new System.EventHandler(this.totalSalesButton_Click);
@@ -933,7 +933,7 @@
             this.yearRadioButton.Location = new System.Drawing.Point(93, 35);
             this.yearRadioButton.Name = "yearRadioButton";
             this.yearRadioButton.Size = new System.Drawing.Size(47, 17);
-            this.yearRadioButton.TabIndex = 3;
+            this.yearRadioButton.TabIndex = 21;
             this.yearRadioButton.TabStop = true;
             this.yearRadioButton.Text = "Year";
             this.yearRadioButton.UseVisualStyleBackColor = true;
