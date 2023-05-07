@@ -71,7 +71,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             updateCart();
         }
 
-        private void sellButton_Click(object sender, EventArgs e)
+        private async void sellButton_Click(object sender, EventArgs e)
         {
             /* Checks the quantity of each item in the cart before selling */
 
@@ -98,8 +98,11 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             }
             // Sync, Sell, send the update to the api then print receipt
             syncNowButton_Click(sender, e);
-            controller.sell_returnButtonPressed(cartListBox, "sell");
-            controller.updateQuantityInCentral(cartListBox, apiTextBox.Text);
+            await Task.Run(() =>
+            {
+                controller.sell_returnButtonPressed(cartListBox, "sell");
+                controller.updateQuantityInCentral(cartListBox, apiTextBox.Text);
+            });
             lastReceipt = " ";
             printReceipt(cartListBox);
             cartListBox.Items.Clear();
@@ -205,9 +208,10 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             if (orderListBox.Items.Count == 0)
                 return;
             syncNowButton_Click(sender, e);
-            controller.orderNowButtonPressed(orderListBox);
+            
             await Task.Run(() =>
             {
+                controller.orderNowButtonPressed(orderListBox);
                 controller.updateQuantityInCentral(orderListBox, apiTextBox.Text);
             });
             orderListBox.Items.Clear();
@@ -314,6 +318,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             autoSync = new Thread(() => controller.autoSyncButtonPressed(apiTextBox.Text));
             if (autoSyncButton.Text == "Auto Sync: Off")
             {
+                
                 autoSyncButton.Text = "Auto Sync: On";
                 autoSyncButton.BackColor = Color.LightGreen;
                 apiTextBox.Enabled = false;
@@ -540,6 +545,8 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         private void printReceipt(ListBox listbox)
         {
+            ListBox tmpListBox = new ListBox();
+            tmpListBox = listbox;
             /* Prints the last receipt using the default printer or microsoft print to pdf printer */
             if (lastReceipt == string.Empty)
                 return;
@@ -547,7 +554,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             DateTime dateTime = DateTime.Now;
             if (lastReceipt == " ")
             {
-                foreach (string product in listbox.Items)
+                foreach (string product in tmpListBox.Items)
                 {
                     lastReceipt += $"{product} \n";
                 }

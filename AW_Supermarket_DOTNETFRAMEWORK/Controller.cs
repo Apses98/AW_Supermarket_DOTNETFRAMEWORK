@@ -177,8 +177,10 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal void orderNowButtonPressed(ListBox orderListBox)
         {
+            ListBox tmpListBox = new ListBox();
+            tmpListBox = orderListBox;
             /* updates the quantity of choosen product(s), (this stimulates getting a new order to the supermarket) */
-            foreach (var item in orderListBox.Items)
+            foreach (var item in tmpListBox.Items)
             {
                 productlist.updateQuantity(item, "return");
             }
@@ -186,11 +188,13 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal void sell_returnButtonPressed(ListBox cartListBox, string operation)
         {
+            ListBox tmpListBox = new ListBox();
+            tmpListBox = cartListBox;
             /* Edites the quantity based on the operation being preformed (selling or returning a product) */
-            if (cartListBox.Items.Count == 0)
+            if (tmpListBox.Items.Count == 0)
                 return;
 
-            foreach (var item in cartListBox.Items)
+            foreach (var item in tmpListBox.Items)
             {
                 productlist.updateQuantity(item, operation);
                 productlist.updateSold(item, operation);
@@ -421,8 +425,21 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                 // check if the api is valid
                 if (apiIsValid(api))
                 {
-                    mainForm.getSyncButton().Text = "Running...";
-                    mainForm.getSyncButton().BackColor = Color.Yellow;
+                    if (mainForm.getSyncButton().InvokeRequired)
+                    {
+                        mainForm.getSyncButton().Invoke(new MethodInvoker(delegate () {
+
+                            mainForm.getSyncButton().Text = "Running...";
+                            mainForm.getSyncButton().BackColor = Color.Yellow;
+                        }));
+
+                    }
+                    else
+                    {
+                        mainForm.getSyncButton().Text = "Running...";
+                        mainForm.getSyncButton().BackColor = Color.Yellow;
+                    }
+                    
                     // Sync
                     if (!productlist.syncNow(api))
                     {
@@ -438,8 +455,21 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                     });
                     // Register last sync time
                     time = DateTime.Now;
-                    mainForm.getSyncButton().Text = "Last Sync: " + time.ToString();
-                    mainForm.getSyncButton().BackColor = Color.LightGreen;
+                    if (mainForm.getSyncButton().InvokeRequired)
+                    {
+                        mainForm.getSyncButton().Invoke(new MethodInvoker(delegate () {
+
+                            mainForm.getSyncButton().Text = "Last Sync: " + time.ToString();
+                            mainForm.getSyncButton().BackColor = Color.LightGreen;
+                        }));
+
+                    }
+                    else
+                    {
+                        mainForm.getSyncButton().Text = "Last Sync: " + time.ToString();
+                        mainForm.getSyncButton().BackColor = Color.LightGreen;
+                    }
+                    
                     
                 }
                 await Task.Run(() =>
@@ -454,6 +484,8 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
         internal async void updateQuantityInCentral(ListBox cartListBox, string api)
         {
+            ListBox tmpListBox = new ListBox();
+            tmpListBox = cartListBox;
             // Sync to update the central stock
 
             // check if the api is valid
@@ -466,7 +498,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             string productId;
             int quantity;
             HttpClient client = new HttpClient();
-            foreach (var item in cartListBox.Items)
+            foreach (var item in tmpListBox.Items)
             {
                 productId = item.ToString().Split('\t')[0];
                 quantity = getQuantity(productId);
