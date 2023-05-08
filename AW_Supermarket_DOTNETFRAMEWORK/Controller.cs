@@ -439,16 +439,18 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                         mainForm.getSyncButton().Text = "Running...";
                         mainForm.getSyncButton().BackColor = Color.Yellow;
                     }
-                    
+
                     // Sync
-                    if (!productlist.syncNow(api))
+                    await Task.Run(() =>
                     {
-                        MessageBox.Show("Auto Sync Failed!\nTrying again in 5 minutes.");
-                        await Task.Run(() =>
+                        if (!productlist.syncNow(api))
                         {
+                            MessageBox.Show("Auto Sync Failed!\nTrying again in 5 minutes.");
+
                             Thread.Sleep(60 * 1000 * 4);
-                        });    
-                    }
+                        }
+                    });
+                    
                     await Task.Run(() =>
                     {
                         Thread.Sleep(1000);
@@ -461,6 +463,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
 
                             mainForm.getSyncButton().Text = "Last Sync: " + time.ToString();
                             mainForm.getSyncButton().BackColor = Color.LightGreen;
+                            mainForm.updateDataGridView();
                         }));
 
                     }
@@ -468,7 +471,10 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
                     {
                         mainForm.getSyncButton().Text = "Last Sync: " + time.ToString();
                         mainForm.getSyncButton().BackColor = Color.LightGreen;
+                        mainForm.updateDataGridView();
                     }
+
+                    
                     
                     
                 }

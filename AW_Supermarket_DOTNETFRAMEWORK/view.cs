@@ -405,7 +405,7 @@ namespace AW_Supermarket_DOTNETFRAMEWORK
             }
         }
 
-        private void updateDataGridView()
+        internal void updateDataGridView()
         {
             // Updates the data gridViews
             dataGridView1.DataSource = controller.getDataSource();
